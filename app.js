@@ -35,14 +35,22 @@ app.get("/reviews/new", function(req, res){
   res.render("reviews-new",{})
 })
 
-app.post("/reviews", function(req, res){
-  Review.create(req.body).then(function(review){
-    console.log(review);
-    res.redirect("/");
+app.get("/reviews/:id", function(req, res){
+  Review.findById(req.params.id).then(function(review){
+    res.render("reviews-show", {review:review})
   }).catch(function(err){
     console.log(err.message);
   });
 });
+
+app.post("/reviews", function(req, res){
+  Review.create(req.body).then(function(review){
+    console.log(review)
+    res.redirect('/reviews/${review.id}')
+  }).catch(function(err){
+    console.log(err.message);
+  })
+})
 
   
 
