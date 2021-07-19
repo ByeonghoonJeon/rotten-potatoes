@@ -27,10 +27,9 @@ app.get('/', (req, res) => {
       })
   })
 
-app.get("/reviews", function(req, res){
-    res.render("reviews-index", {reviews: reviews});
-});
-
+  app.get("/reviews/new", function(req, res){
+    res.render("reviews-new",{})
+  })
 
 app.listen(3000, function(){
     console.log("Server is working on port 3000");
