@@ -10,7 +10,8 @@ mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true 
 const Review = mongoose.model('Review', {
     title: String,
     description: String,
-    movieTitle: String
+    movieTitle: String,
+    rating: Number
   });
 let reviews = [
     {title: "Great Review", movieTitle: "Batman II"},
@@ -35,7 +36,6 @@ app.get("/reviews/new", function(req, res){
 })
 
 app.post("/reviews", function(req, res){
-  console.log(req.body);
   Review.create(req.body).then(function(review){
     console.log(review);
     res.redirect("/");
