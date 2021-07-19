@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+app.use(express.json()); //Used to parse JSON bodies
+app.use(express.urlencoded()); //Parse URL-encoded bodies
 
 const exphbs = require("express-handlebars");
 
@@ -7,6 +9,7 @@ const mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
 const Review = mongoose.model('Review', {
     title: String,
+    description: String,
     movieTitle: String
   });
 let reviews = [
@@ -27,9 +30,21 @@ app.get('/', (req, res) => {
       })
   })
 
-  app.get("/reviews/new", function(req, res){
-    res.render("reviews-new",{})
-  })
+app.get("/reviews/new", function(req, res){
+  res.render("reviews-new",{})
+})
+
+app.post("/reviews", function(req, res){
+  console.log(req.body);
+  Review.create(req.body).then(function(review){
+    console.log(review);
+    res.redirect("/");
+  }).catch(function(err){
+    console.log(err.message);
+  });
+});
+
+  
 
 app.listen(3000, function(){
     console.log("Server is working on port 3000");
