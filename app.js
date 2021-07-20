@@ -1,7 +1,11 @@
 const express = require("express");
+const methodOverride = require("method-override");
 const app = express();
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
+
+// override with POST having ?_method=DELETE or ?_method=PUT
+app.use(methodOverride("_method"));
 
 app.use(express.json()); //Used to parse JSON bodies
 app.use(express.urlencoded()); //Parse URL-encoded bodies
@@ -42,13 +46,32 @@ app.get("/reviews", (req, res) => {
   res.render("reviews-index", { reviews: reviews });
 });
 
+// NEW
 app.get("/reviews/new", (req, res) => {
-  res.render("reviews-new", {});
+  res.render("reviews-new", { title: "New Review" });
 });
 
 // SHOW
 app.get("/reviews/:id", (req, res) => {
   res.send("I'm a review");
+});
+
+// EDIT
+app.get("/reviews/:id/edit", (req, res) => {
+  Review.findById(req.params.id, function (err, review) {
+    res.render("reviews-edit", { review: review, title: "Edit Review" });
+  });
+});
+
+// UPDATE
+app.put("/reviews/:id", (req, res) => {
+  Review.findByIdAndUpdate(req.params.id, req.body)
+    .then((review) => {
+      res.redirect(`/reviews/${review._id}`);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 });
 
 // CREATE
