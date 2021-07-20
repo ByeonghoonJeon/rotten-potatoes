@@ -53,7 +53,14 @@ app.get("/reviews/new", (req, res) => {
 
 // SHOW
 app.get("/reviews/:id", (req, res) => {
-  res.send("I'm a review");
+  Review.findById(req.params.id).lean()
+    .then((review) => {
+        console.log(review);
+      res.render("reviews-show", { review: review });
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 });
 
 // EDIT
