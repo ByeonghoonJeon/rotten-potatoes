@@ -1,0 +1,24 @@
+{
+  "name": "rotten-potatoes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ByeonghoonJeon/rotten-potatoes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ByeonghoonJeon/rotten-potatoes/issues"
+  },
+  "homepage": "https://github.com/ByeonghoonJeon/rotten-potatoes#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2"
+  }
+}
