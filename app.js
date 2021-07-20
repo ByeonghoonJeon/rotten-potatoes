@@ -13,7 +13,8 @@ mongoose.connect("mongodb://localhost/rotten-potatoes", {
 const Review = mongoose.model("Review", {
   title: String,
   movieTitle: String,
-  description: String
+  rating: Number,
+  description: String,
 });
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
@@ -45,11 +46,17 @@ app.get("/reviews/new", (req, res) => {
   res.render("reviews-new", {});
 });
 
+// SHOW
+app.get("/reviews/:id", (req, res) => {
+  res.send("I'm a review");
+});
+
+// CREATE
 app.post("/reviews", (req, res) => {
   Review.create(req.body)
     .then((review) => {
       console.log(review);
-      res.redirect("/");
+      res.redirect(`/reviews/${review._id}`); // Redirect to reviews/:id
     })
     .catch((err) => {
       console.log(err.message);
