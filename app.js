@@ -3,6 +3,7 @@ const methodOverride = require("method-override");
 const app = express();
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
+const reviews = require('./controllers/reviews')(app);
 
 // override with POST having ?_method=DELETE or ?_method=PUT
 app.use(methodOverride("_method"));
