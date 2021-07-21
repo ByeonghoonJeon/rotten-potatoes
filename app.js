@@ -26,6 +26,9 @@ const reviews = require('./controllers/reviews')(app);
 //     { title: "Fun Movie", movieTitle: "LALA Land"}
 //   ]
 
+
 app.listen(3000, () => {
   console.log("App listening on port 3000!");
 });
+
+module.exports = app;

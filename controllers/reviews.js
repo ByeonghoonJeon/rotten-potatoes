@@ -35,12 +35,12 @@ app.get("/reviews/:id", (req, res) => {
 app.get("/reviews/:id/edit", (req, res) => {
   Review.findById(req.params.id, function (err, review) {
     res.render("reviews-edit", { review: review, title: "Edit Review" });
-  });
+  }).lean();
 });
 
 // UPDATE
 app.put("/reviews/:id", (req, res) => {
-  Review.findByIdAndUpdate(req.params.id, req.body)
+  Review.findByIdAndUpdate(req.params.id, req.body).lean()
     .then((review) => {
       res.redirect(`/reviews/${review._id}`);
     })
@@ -64,7 +64,7 @@ app.post("/reviews", (req, res) => {
 // DELETE
 app.delete('/reviews/:id', function (req, res) {
   console.log("DELETE review")
-  Review.findByIdAndRemove(req.params.id).then((review) => {
+  Review.findByIdAndRemove(req.params.id).lean().then((review) => {
     res.redirect('/');
   }).catch((err) => {
     console.log(err.message);
