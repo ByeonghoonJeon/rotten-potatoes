@@ -18,6 +18,7 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 const reviews = require('./controllers/reviews')(app);
+const comments = require('./controllers/comments')(app);
 
 // OUR MOCK ARRAY OF PROJECTS
 // let reviews = [
