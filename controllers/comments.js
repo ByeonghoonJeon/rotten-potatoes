@@ -1,14 +1,25 @@
-const Comment = require('../models/comment');
-
+const Comment = require("../models/comment");
+const moment = require("moment");
 module.exports = (app) => {
-
-    // CREATE Comment
-    app.post('/reviews/comments', (req, res) => {
-      Comment.create(req.body).then((comment) => {
-        console.log(comment)
+  // CREATE Comment
+  app.post("/reviews/comments", (req, res) => {
+    Comment.create(req.body)
+      .then((comment) => {
         res.redirect(`/reviews/${comment.reviewId}`);
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log(err.message);
       });
-    });
-}
+  });
+  // DELETE
+  app.delete("/reviews/comments/:id", function (req, res) {
+    console.log("DELETE comment");
+    Comment.findByIdAndRemove(req.params.id)
+      .then((comment) => {
+        res.redirect(`/reviews/${comment.reviewId}`);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  });
+};

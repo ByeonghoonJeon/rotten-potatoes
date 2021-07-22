@@ -1,5 +1,8 @@
-const Review = require('../models/review');
-const Comment = require('../models/comment')
+const Review = require("../models/review");
+const Comment = require("../models/comment");
+
+// Got to import the libary
+const moment = require("moment");
 
 module.exports = function (app) {
   app.get("/", (req, res) => {
@@ -31,16 +34,42 @@ module.exports = function (app) {
 
   // SHOW
   app.get("/reviews/:id", (req, res) => {
+    // find review
     Review.findById(req.params.id)
       .lean()
       .then((review) => {
-
-        res.render("reviews-show", { review: review });
+        let createdAt = review.createdAt;
+        createdAt = moment(createdAt).format("MMMM Do YYYY, h:mm:ss a");
+        review.createdAtFormatted = createdAt;
+        // fetch its comments
+        Comment.find({ reviewId: req.params.id })
+          .lean()
+          .then((comments) => {
+            let createdAt = comments.createdAt;
+            createdAt = moment(createdAt).format("MMMM Do YYYY, h:mm:ss a");
+            comments.createdAtFormatted = createdAt;
+            comments.reverse();
+            // respond with the template with both values
+            res.render("reviews-show", { review: review, comments: comments });
+          });
       })
       .catch((err) => {
+        // catch errors
         console.log(err.message);
       });
   });
+
+  // app.get("/reviews/:id", (req, res) => {
+  //   Review.findById(req.params.id)
+  //     .lean()
+  //     .then((review) => {
+
+  //       res.render("reviews-show", { review: review });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //     });
+  // });
 
   // EDIT
   app.get("/reviews/:id/edit", (req, res) => {
