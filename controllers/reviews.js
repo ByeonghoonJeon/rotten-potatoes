@@ -34,7 +34,7 @@ module.exports = function (app) {
     Review.findById(req.params.id)
       .lean()
       .then((review) => {
-        console.log(review);
+
         res.render("reviews-show", { review: review });
       })
       .catch((err) => {
