@@ -1,6 +1,6 @@
 module.exports = function (app) {
   const { MovieDb } = require("moviedb-promise");
-  const moviedb = new MovieDb("");
+  const moviedb = new MovieDb("3d3cb11b62b04a588bc5e5c76f6266cc");
 
   app.get("/", (req, res) => {
     moviedb
